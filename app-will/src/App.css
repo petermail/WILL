@@ -1,0 +1,132 @@
+body {
+  text-align: center;
+  background-color: #282c34;
+  color: white;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+.address {
+  width: 260px;
+  float: left;
+}
+
+.minitoken {
+  width: 200px;
+  text-align: left;
+  margin: 10px;
+  padding: 10px 16px;
+  border: white 1px solid;
+  border-radius: 20px;
+  height: 60px;
+  overflow: hidden;
+  float: right;
+  clear: both;
+}
+.minitoken:hover {
+  border: #23b923 1px solid;
+}
+.token {
+  width: 210px;
+  text-align: left;
+  margin: 10px;
+  padding: 10px 16px;
+  border: gray 1px solid;
+  border-radius: 20px;
+  height: 80px;
+  overflow: hidden;
+}
+.token-value {
+  text-align: right;
+  float: right;
+  color:white;
+}
+.token-value div { 
+  font-weight: bold; 
+  float: right;
+  margin-left: 4px;
+}
+.token-img {
+  float: left;
+}
+.token-name {  
+  float: left;
+  padding-left: 5px;
+  font-weight: bold;
+}
+.token-amount-text {
+  clear: both;
+  float: left;
+}
+.slidecontainer {
+  float: left;
+}
+.slider {
+  margin-top: 4px;
+  width: 100px;
+}
+.token-form {
+  float: left;
+}
+.token-input {
+  background-color: #282c34;
+  border: gray solid 1px;
+  border-radius: 4px;
+  color: white;
+  padding: 4px;
+  margin-top: 4px;
+  margin-left: 2px;
+  font-size: 18px;
+  width: 60px;
+  float: left;
+}
+.token-diff {
+  color: #23b923;
+  clear: both;
+}
+.token-diff-pos {
+  color: #23b923;
+  clear: both;
+}
+.token-diff-neg {
+  color: red;
+  clear: both;
+}
+.menu {
+  float: right;
+}
+.bottom {
+  clear: both;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
