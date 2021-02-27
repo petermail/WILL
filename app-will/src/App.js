@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import {useState} from 'react';
 import './App.css';
 import MenuClass from './MenuClass.js';
+import WillClass from './WillClass.js';
 import SplitterLayout from 'react-splitter-layout';
 //import 'react-splitter-layout/lib/index.css';
 import AddressClass from './AddressClass.js';
@@ -21,7 +23,7 @@ class App extends React.Component {
     var coins = ["USDT", "USDC", "RenBTC"];
     var imgs = [imgUsdt, imgUsdt, imgBtc];
     var maxs = [0, 0, 0];
-    var wallet = [100, 20, 1.1];
+    //var wallet = [100, 20, 1.1];
     var surplus = [0, 0, 0];
     var amounts = [[100, 200, 0.8], [200, 300, 0.4]];
     for (var j = 0; j < addr.length; ++j){
@@ -30,23 +32,23 @@ class App extends React.Component {
       }
     }
 
-    var data = [];
+    var data = []; // List of addresses with coins
     for (j = 0; j < addr.length; ++j){
       var list = [];
       for (i = 0; i < coins.length; ++i){
-        list.push([coins[i], imgs[i], amounts[j][i], maxs[i], surplus[i]]);
+        list.push([coins[i], imgs[i], amounts[j][i], amounts[j][i], maxs[i], surplus[i], i]);
       }
       data.push(list);
     }
-    var list2 = [];
+    /*var list2 = [];
     for (i = 0; i < coins.length; ++i){
-      list2.push([coins[i], imgs[i], wallet[i], wallet[i], surplus[i]]);
-    }
+      list2.push([coins[i], imgs[i], wallet[i], wallet[i], wallet[i], surplus[i]]);
+    }*/
     
     this.state = {
       data: data,
       address: addr,
-      wallet: list2,
+      //wallet: list2,
       splits: splits,
       widths: widths
     };
@@ -91,23 +93,82 @@ class App extends React.Component {
     }
     return result;
   }
-  resize(){
-    console.log("Resize: ");
+  log(){
+    console.log("Logged: ");
+  }
+  addToken(){
+
+  }
+  changeValueHandler = (e, index, indexAdd) => {
+    // e.target.value
+    var addr = ["Will", "Your wallet"];
+    var splits = [];
+    var widths = [];
+    var willAddr = ["Adam", "Bob", "Cindy"];
+    for (var k = 0; k < willAddr.length; ++k){
+      splits.push(1);
+      widths.push(0);
+    }
+    var coins = ["USDT", "USDC", "RenBTC"];
+    var imgs = [imgUsdt, imgUsdt, imgBtc];
+    var maxs = [0, 0, 0];
+    var wallet = [100, 20, 1.1];
+    var surplus = [0, 0, 0];
+    var amounts = [[100, 200, 0.8], [200, 300, 0.4]];
+    for (var j = 0; j < addr.length; ++j){
+      for (var i = 0; i < coins.length; ++i){
+        maxs[i] += amounts[j][i];
+      }
+    }
+    // end of start
+
+    amounts[index][indexAdd] = Math.round((maxs[indexAdd] - e.target.value)*10000)/10000;
+    amounts[(index + 1) % 2][indexAdd] = e.target.value;
+    var data = [];
+    console.log("indexAdd: ", indexAdd);
+    console.log("index: ", index);
+    console.log("data: ", this.state.data);
+    for (var j = 0; j < addr.length; ++j){
+      var list = [];
+      if (false){
+        for (var i = 0; i < coins.length; ++i){
+          list.push([this.state.data[j][i][0], this.state.data[j][i][1], 
+            this.state.data[j][i][2], amounts[j][i], this.state.data[j][i][4], this.state.data[j][i][5], i]);
+        }
+      } else {
+        for (var i = 0; i < coins.length; ++i){
+          if (i != indexAdd){
+            list.push([this.state.data[j][i][0], this.state.data[j][i][1], 
+              this.state.data[j][i][2], this.state.data[j][i][3], this.state.data[j][i][4], this.state.data[j][i][5], i]);
+          } else if (index != j){
+            list.push([this.state.data[j][i][0], this.state.data[j][i][1], 
+              this.state.data[j][i][2], amounts[j][i], this.state.data[j][i][4], this.state.data[j][i][5], i]);
+          } else {
+            list.push([coins[i], imgs[i], this.state.data[j][i][2], amounts[j][i], maxs[i], surplus[i], i]);
+          }
+        }
+      }
+      data.push(list);
+    }
+    console.log("end: ", data);
+
+    this.setState({
+      data: data
+    })
+    console.log("Set state: ", e.target.value);
   }
 
   render(){
   return (
     <div className="App">
       <div>
-        <AddressClass addressName={this.state.address[0]} tokens={this.state.data[0]} />
-        <AddressClass addressName={this.state.address[1]} tokens={this.state.data[1]} />
+        <AddressClass addressName={this.state.address[0]} tokens={this.state.data[0]} 
+          changeValue={(e, i) => this.changeValueHandler(e, 1, i)} addToken={this.addToken} />
+        <AddressClass addressName={this.state.address[1]} tokens={this.state.data[1]} 
+          changeValue={(e, i) => this.changeValueHandler(e, 0, i)} addToken={this.addToken} />
 
         <div className="mainSplitter">
-          <div>Split of will:</div>
-          { this.renderInnerSplitter(3) }
-          <div>
-            { this.renderInputs(3) }
-          </div>
+          <WillClass data={this.state.data} addresses={this.state.address} />
         </div>
       </div>
       <div className="bottom">
@@ -118,5 +179,12 @@ class App extends React.Component {
   );
 }
 }
+/* to use inside class "mainSplitter"
+          <div>Split of will:</div>
+          { this.renderInnerSplitter(3) }
+          <div>
+            { this.renderInputs(3) }
+          </div>
+*/
 
 export default App;

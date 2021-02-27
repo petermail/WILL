@@ -21,7 +21,8 @@ class AddressClass extends React.Component {
             <hr />
             {
                 this.props.tokens.map(t => (
-                    <TokenClass key={t[0]} name={t[0]} img={t[1]} value={t[2]} max={t[3]} surplus={t[4]} diff={diff} />
+                    <TokenClass key={t[0]} name={t[0]} img={t[1]} initValue={t[2]} value={t[3]} max={t[4]} surplus={t[5]} diff={diff} 
+                      changeValue={this.props.changeValue} index={t[6]} />
                 ))
             }
         </div>
